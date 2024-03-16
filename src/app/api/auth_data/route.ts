@@ -2,9 +2,8 @@ import { NextApiResponse } from 'next';
 import { NextResponse } from 'next/server';
 import { AuthDataType } from '@/utils/AuthDataType';
 
-let authData: AuthDataType = {
+let authData = {
   email: '',
-  auth_token: '',
 };
 
 export async function GET(req: Request, res: NextApiResponse) {
@@ -15,16 +14,13 @@ export async function GET(req: Request, res: NextApiResponse) {
   }
 
   res.statusCode = 400;
-  return NextResponse.json({ message: 'Firstly enter your email'});
+  return NextResponse.json({ message: 'Firstly enter your email' });
 }
 
 export async function POST(req: Request, res: NextApiResponse) {
   authData.email = '';
   const data = await req.json();
   authData.email = data.email;
-  if (data.auth_token) {
-    authData.auth_token = data.auth_token;
-  }
 
   res.statusCode = 204;
   return NextResponse.json(authData);

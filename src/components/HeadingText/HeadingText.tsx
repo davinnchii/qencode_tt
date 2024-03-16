@@ -1,9 +1,10 @@
 type Props = {
   headingText: string;
+  classnames?: string;
 }
 
-export const HeadingText: React.FC<Props> = ({ headingText }) => {
+export const HeadingText: React.FC<Props> = ({ headingText, classnames }) => {
   return(
-    <h3 className="text-3xl font-bold text-gray-900">{headingText}</h3>
+    <h3 className={`text-3xl font-bold text-gray-900 ${classnames}`}>{headingText}</h3>
   )
 }

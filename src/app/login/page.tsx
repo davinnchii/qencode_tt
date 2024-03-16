@@ -1,5 +1,4 @@
 'use client';
-import { ButtonSSO } from '@/components/ButtonSSO/ButtonSSO';
 import { InputLogin } from '@/components/InputLogin/InputLogin';
 import { ButtonBlue } from '@/components/ButtonBlue/ButtonBlue';
 import { SignUpText } from '@/components/SignUpText/SignUpText';
@@ -12,15 +11,25 @@ import { AuthDataType } from '@/utils/AuthDataType';
 import { Logo } from '@/components/Logo/Logo';
 import { ModalSuccess } from '@/components/Modals/ModalSuccess';
 import { useDisclosure } from '@nextui-org/react';
+import SSOAuth from '@/components/SSOAuth/SSOAuth';
 
 export default function Page() {
   const [passwordShown, setPasswordShown] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { handleSubmit, control, setValue } = useForm<FormValues>({
+  const {
+    handleSubmit,
+    control,
+    setValue,
+    setError,
+    formState: { errors, isValid },
+    clearErrors
+  } = useForm<FormValues>({
     defaultValues: {
       email: '',
       password: ''
-    }, mode: 'onChange'
+    },
+    mode: 'onSubmit',
+    reValidateMode: "onSubmit"
   })
 
   useEffect(() => {
@@ -43,6 +52,10 @@ export default function Page() {
   }
 
   const onSubmit = async (data: FormValues) => {
+    if (!isValid) {
+      return;
+    }
+
     await axios.post('https://auth-qa.qencode.com/v1/auth/login', {
       email: data.email,
       password: data.password,
@@ -54,12 +67,14 @@ export default function Page() {
           token_expire: res.data.token_expire,
           refresh_token_expire: res.data.refresh_token_expire,
         }))
+        onOpen();
       })
       .catch(error => {
-        console.error(error);
+        if (error.response.data.detail === 'Invalid user') {
+          setError('password', {type: 'custom', message: 'Invalid email or password. Please try again'});
+          return;
+        }
       });
-
-    onOpen();
 
     const timeout = setTimeout(() => {
       onClose();
@@ -74,26 +89,30 @@ export default function Page() {
     <main className="flex flex-col items-center pt-[180px] gap-[80px] font-grotes">
       <Logo />
       <form onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col gap-[30px] items-center w-full max-w-[400px] p-5 lg:w-[400px]">
+            className="flex flex-col gap-[30px] items-center w-full max-w-[400px] p-5 lg:w-[400px]"
+            noValidate
+      >
         <HeadingText headingText="Log in to your account" />
-        <div className="flex gap-[16px] justify-center w-full">
-          <ButtonSSO buttonText="Google" icon="/icon-google.svg" />
-          <ButtonSSO buttonText="Github" icon="/icon-github.svg" />
-        </div>
+        <SSOAuth />
         <div className="flex items-center w-full gap-[10px]">
           <div className="h-[1px] bg-[#E3E6E9] w-[50%]" />
           <p className="text-xs text-[#BEC5CC]">OR</p>
           <div className="h-[1px] bg-[#E3E6E9] w-[50%]" />
         </div>
         <InputLogin
-          props={emailProps} type="email"
+          errors={errors}
+          props={emailProps}
+          type="email"
           placeholder="Work email"
+          clearErrors={clearErrors}
         />
         <InputLogin
           props={passwordProps}
+          errors={errors}
           type={passwordShown ? 'text' : 'password'}
           placeholder="Password"
           onClick={() => handleShowPassword()}
+          clearErrors={clearErrors}
         />
         <ButtonBlue type="submit" buttonText="Log in to Qencode" />
         <SignUpText />
