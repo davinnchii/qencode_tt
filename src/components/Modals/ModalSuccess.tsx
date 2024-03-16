@@ -1,13 +1,12 @@
-'use client';
-
 import { Modal, ModalBody, ModalContent, ModalHeader, useDisclosure } from '@nextui-org/react';
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
+  children: React.ReactNode;
 }
 
-export function ModalSuccess({ isOpen, onClose }: Props) {
+export function ModalSuccess({ isOpen, onClose, children }: Props) {
   return (
     <Modal
       isOpen={isOpen}
@@ -24,7 +23,7 @@ export function ModalSuccess({ isOpen, onClose }: Props) {
               Success!
             </ModalHeader>
             <ModalBody>
-              You successfully logged in to our system.
+              {children}
             </ModalBody>
           </>
         )}

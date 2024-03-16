@@ -12,6 +12,7 @@ const config: Config = {
     extend: {
       fontFamily: {
         grotes: ['var(--font-grotes_dark)'],
+        grotes_space: ['var(--font-grotes_space)'],
       }
     },
   },

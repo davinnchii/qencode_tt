@@ -3,19 +3,20 @@ import { InputLogin } from '@/components/InputLogin/InputLogin';
 import { ButtonBlue } from '@/components/ButtonBlue/ButtonBlue';
 import { SignUpText } from '@/components/SignUpText/SignUpText';
 import { HeadingText } from '@/components/HeadingText/HeadingText';
-import { UseControllerProps, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { FormValues } from '@/utils/FormValues';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 import { AuthDataType } from '@/utils/AuthDataType';
 import { Logo } from '@/components/Logo/Logo';
 import { ModalSuccess } from '@/components/Modals/ModalSuccess';
 import { useDisclosure } from '@nextui-org/react';
 import SSOAuth from '@/components/SSOAuth/SSOAuth';
+import { emailProps, passwordProps } from '@/utils/fieldsProps';
 
 export default function Page() {
   const [passwordShown, setPasswordShown] = useState(false);
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     handleSubmit,
     control,
@@ -29,7 +30,7 @@ export default function Page() {
       password: ''
     },
     mode: 'onSubmit',
-    reValidateMode: "onSubmit"
+    reValidateMode: 'onSubmit'
   })
 
   useEffect(() => {
@@ -39,42 +40,30 @@ export default function Page() {
       });
   }, []);
 
-  const emailProps: UseControllerProps<FormValues> = {
-    control,
-    name: 'email',
-    rules: { required: true }
-  }
-
-  const passwordProps: UseControllerProps<FormValues> = {
-    control,
-    name: 'password',
-    rules: { required: true, minLength: 8 }
-  }
+  emailProps.control = control;
+  passwordProps.control = control;
 
   const onSubmit = async (data: FormValues) => {
     if (!isValid) {
       return;
     }
-
-    await axios.post('https://auth-qa.qencode.com/v1/auth/login', {
+    axios.post('https://auth-qa.qencode.com/v1/auth/login', {
       email: data.email,
       password: data.password,
-    })
-      .then(res => {
-        localStorage.setItem('token', JSON.stringify({
-          access_token: res.data.access_token,
-          refresh_token: res.data.refresh_token,
-          token_expire: res.data.token_expire,
-          refresh_token_expire: res.data.refresh_token_expire,
-        }))
-        onOpen();
-      })
-      .catch(error => {
-        if (error.response.data.detail === 'Invalid user') {
-          setError('password', {type: 'custom', message: 'Invalid email or password. Please try again'});
-          return;
-        }
-      });
+    }).then(res => {
+      localStorage.setItem('token', JSON.stringify({
+        access_token: res.data.access_token,
+        refresh_token: res.data.refresh_token,
+        token_expire: res.data.token_expire,
+        refresh_token_expire: res.data.refresh_token_expire,
+      }))
+      onOpen();
+    }).catch(error => {
+      if (error.response.data.detail === 'Invalid user') {
+        setError('password', { type: 'custom', message: 'Invalid email or new-password. Please try again' });
+        return;
+      }
+    });
 
     const timeout = setTimeout(() => {
       onClose();
@@ -117,7 +106,7 @@ export default function Page() {
         <ButtonBlue type="submit" buttonText="Log in to Qencode" />
         <SignUpText />
       </form>
-      <ModalSuccess isOpen={isOpen} onClose={onClose} />
+      <ModalSuccess isOpen={isOpen} onClose={onClose}>You successfully logged in!</ModalSuccess>
     </main>
   );
 }

@@ -3,6 +3,7 @@ import { FieldErrors, useController, UseControllerProps, UseFormClearErrors } fr
 import { FormValues } from '@/utils/FormValues';
 import { PassResetLink } from '@/components/PassResetLink/PassResetLink';
 import { ErrorMessage } from '@/components/HeadingText/ErrorMessage';
+import { getFieldLabelByName } from '@/utils/getFieldLabelByName';
 
 type Props = {
   props: UseControllerProps<FormValues>
@@ -11,6 +12,7 @@ type Props = {
   errors: FieldErrors<FormValues>;
   clearErrors: UseFormClearErrors<FormValues>;
   onClick?: () => void;
+  label?: string;
 }
 export const InputLogin: React.FC<Props> = ({
   props,
@@ -18,7 +20,8 @@ export const InputLogin: React.FC<Props> = ({
   type,
   errors,
   clearErrors,
-  onClick
+  onClick,
+  label
 }) => {
   const { field, fieldState } = useController(props);
 
@@ -28,10 +31,15 @@ export const InputLogin: React.FC<Props> = ({
     }
   }
 
+  const showEyeIcon = props.name.toLowerCase().includes('password');
+
   return (
     <>
-      <div className="w-full text-right">
+      <div className={`w-full text-right ${label?.length ? 'mt-[25px]' : ''}`}>
         <div className="flex justify-end items-center relative w-full">
+          <p className=" absolute left-0 -top-8 font-medium text-[15px] leading-[21px] text-[#060E1E]">
+            {label}
+          </p>
           <input
             {...field}
             type={type}
@@ -40,6 +48,8 @@ export const InputLogin: React.FC<Props> = ({
             aria-invalid={errors[props.name] ? 'true' : 'false'}
             onClick={() => handleClearErrors()}
           />
+
+
           {errors[props.name]?.type === 'required' && (
             <ErrorMessage message="This field is required" />
           )}
@@ -56,7 +66,7 @@ export const InputLogin: React.FC<Props> = ({
             <ErrorMessage message={errors.password?.message || 'Invalid data'} />
           )}
 
-          {props.name === 'password' && (
+          {showEyeIcon && (
             <>
               <button
                 type="button"
@@ -71,7 +81,8 @@ export const InputLogin: React.FC<Props> = ({
             </>
           )}
         </div>
-        {props.name === 'password' && <PassResetLink />}
+
+        {(props.name === 'password' && !label?.length) && <PassResetLink />}
       </div>
     </>
   )

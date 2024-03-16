@@ -1,16 +1,16 @@
 'use client';
 
-import { ButtonSSO } from '@/components/SSOAuth/ButtonSSO/ButtonSSO';
 import { InputLogin } from '@/components/InputLogin/InputLogin';
 import { ButtonBlue } from '@/components/ButtonBlue/ButtonBlue';
 import { SignUpText } from '@/components/SignUpText/SignUpText';
 import { HeadingText } from '@/components/HeadingText/HeadingText';
-import { UseControllerProps, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { FormValues } from '@/utils/FormValues';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { Logo } from '@/components/Logo/Logo';
 import SSOAuth from '@/components/SSOAuth/SSOAuth';
+import { emailProps } from '@/utils/fieldsProps';
 
 export default function Home() {
   const router = useRouter();
@@ -29,22 +29,18 @@ export default function Home() {
     reValidateMode: 'onSubmit'
   })
 
-  const inputProps: UseControllerProps<FormValues> = {
-    control,
-    name: 'email',
-    rules: { required: true, pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/ }
-  }
+  emailProps.control = control;
 
   const onSubmit = async (data: FormValues) => {
     if (!isValid) {
       return;
     }
 
-    await axios.post('/api/auth_data', {
+    axios.post('/api/auth_data', {
       email: data.email
-    });
-
-    router.push('/login');
+    }).then(res => {
+      router.push('/login');
+    }).catch(e => console.error(e));
   }
 
   return (
@@ -62,7 +58,7 @@ export default function Home() {
           <div className="h-[1px] bg-[#E3E6E9] w-[50%]" />
         </div>
         <InputLogin
-          props={inputProps}
+          props={emailProps}
           errors={errors}
           clearErrors={clearErrors}
           type="email"

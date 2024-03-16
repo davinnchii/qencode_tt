@@ -1,14 +1,20 @@
 import type { Metadata } from 'next';
-import { Darker_Grotesque } from 'next/font/google';
+import { Darker_Grotesque, Space_Grotesk } from 'next/font/google';
 
 import './globals.css';
-import { NextUIProvider } from '@nextui-org/react';
 
 const grotes_dark = Darker_Grotesque(
   {
     weight: ['400', '500', '700'],
     subsets: ['latin'],
     variable: '--font-grotes_dark',
+  });
+
+const grotes_space = Space_Grotesk(
+  {
+    weight: ['400', '500', '700'],
+    subsets: ['latin'],
+    variable: '--font-grotes_space',
   });
 
 export const metadata: Metadata = {
@@ -23,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-    <body className={grotes_dark.variable}>{children}</body>
+    <body className={`${grotes_dark.variable} ${grotes_space.variable}`}>{children}</body>
     </html>
   );
 }
