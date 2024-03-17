@@ -38,7 +38,7 @@ export default function Page() {
       .then(res => {
         setValue('email', res.data.email)
       });
-  }, []);
+  });
 
   emailProps.control = control;
   passwordProps.control = control;

@@ -1,6 +1,5 @@
 import { NextApiResponse } from 'next';
 import { NextResponse } from 'next/server';
-import { AuthDataType } from '@/utils/AuthDataType';
 
 let authData = {
   email: '',

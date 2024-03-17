@@ -1,19 +1,17 @@
 'use client'
 import { useForm } from 'react-hook-form';
 import { FormValues } from '@/utils/FormValues';
-import { confirmPasswordProps, newPasswordProps, passwordProps } from '@/utils/fieldsProps';
+import { confirmPasswordProps, newPasswordProps } from '@/utils/fieldsProps';
 import { Logo } from '@/components/Logo/Logo';
 import { HeadingText } from '@/components/HeadingText/HeadingText';
 import { InputLogin } from '@/components/InputLogin/InputLogin';
 import { ButtonBlue } from '@/components/ButtonBlue/ButtonBlue';
 import { useState } from 'react';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
 import { useDisclosure } from '@nextui-org/react';
 import { ModalSuccess } from '@/components/Modals/ModalSuccess';
 
 export default function Page() {
-  const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [newPasswordShown, setNewPasswordShown] = useState(false);
   const [confirmPasswordShown, setConfirmPasswordShown] = useState(false);
@@ -50,8 +48,8 @@ export default function Page() {
     axios.post('https://auth-qa.qencode.com/v1/auth/password-set', {
       token: 'pasteTokenHere',
       secret: 'pasteSecretHere',
-      password: 'newPassword',
-      password_confirm: 'newPassword'
+      password: data.newPassword,
+      password_confirm: data.confirmPassword,
     })
       .then(() => {
         onOpen();
