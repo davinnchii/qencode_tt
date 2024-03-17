@@ -5,7 +5,7 @@ import { SignUpText } from '@/components/SignUpText/SignUpText';
 import { HeadingText } from '@/components/HeadingText/HeadingText';
 import { useForm } from 'react-hook-form';
 import { FormValues } from '@/utils/FormValues';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { AuthDataType } from '@/utils/AuthDataType';
 import { Logo } from '@/components/Logo/Logo';

@@ -11,8 +11,7 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        grotes: ['var(--font-grotes_dark)'],
-        grotes_space: ['var(--font-grotes_space)'],
+        grotes: ['Grotesque, sans-serif'],
       }
     },
   },
