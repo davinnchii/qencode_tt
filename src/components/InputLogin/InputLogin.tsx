@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { FieldErrors, useController, UseControllerProps, UseFormClearErrors } from 'react-hook-form';
 import { FormValues } from '@/utils/FormValues';
 import { PassResetLink } from '@/components/PassResetLink/PassResetLink';
-import { ErrorMessage } from '@/components/HeadingText/ErrorMessage';
+import { ErrorMessage } from '@/components/ErrorMessage/ErrorMessage';
 import { getFieldLabelByName } from '@/utils/getFieldLabelByName';
 
 type Props = {

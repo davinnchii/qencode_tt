@@ -60,7 +60,7 @@ export default function Page() {
       onOpen();
     }).catch(error => {
       if (error.response.data.detail === 'Invalid user') {
-        setError('password', { type: 'custom', message: 'Invalid email or new-password. Please try again' });
+        setError('password', { type: 'custom', message: 'Invalid email or new-password.' });
         return;
       }
     });

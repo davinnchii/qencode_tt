@@ -34,7 +34,7 @@ export default function Page() {
 
     axios.post('/api/auth_data', { email: data.email })
       .then(res => {
-        router.push('/qweqeqeqeq');
+        router.push('/reset/new-password');
       })
       .catch(e => console.error(e));
 
