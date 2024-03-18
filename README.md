@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# Login UI for Qencode
 
-First, run the development server:
+This project was done using Next.js with TypeScript and TailwindCSS.
+Additional libraries used:
+- React-hook form
+- Axios
+- NextUI
+
+
+## Run Locally
+
+Clone the project
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+  git clone https://github.com/davinnchii/qencode_tt.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Go to the project directory
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+  cd qencode_tt
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Install dependencies
 
-## Learn More
+```bash
+  npm install
+```
 
-To learn more about Next.js, take a look at the following resources:
+Start the server
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+  npm run start
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Demo
 
-## Deploy on Vercel
+[Netlify Deploy](https://dapper-tarsier-99201b.netlify.app/)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Project Details
+Here are few notes about current implementation:
+- General
+  - On a design there is a link to Sign Up page, and it is also on a demo, which isn't described in the API documentation and can't be implemented with the data I had at the moment of completing a task, so it is just a link to '#'.
+- Login
+  - There is no any UI for successful login on the design, so I decided just to notify the user with the modal, which tells that the login is successful and this modal can be modified and styled in a more better way, but at the moment it just kind of a notification for a user.
+  - In case of some errors(failed login), validation problems are displayed on the page. I didn't saw all possible server login errors, but covered the probably most usual ones. If it is necessary to cover all the server-side errors, I'd like to do that if I have them described.
+- Password reset
+  - There is no API endpoint to check if the user with provided email exists, so on that page there is no validation for that.
+  - In the `password set` request, both a `token` and a `secret` are required. However, I couldn't obtain them from the data I had. Nevertheless, I described them in the request. From what I understood, you can retrieve the token from the URL, which can be achieved either through the Next.js App router or simply by parsing the current URL.
+  - I couldn't reproduce all of the server errors on this page, so validation error is only made for new password and confirm password being different.
+  - After entering the email user is redirected to new password page just to show all the functionality in simpler way.
