@@ -7,7 +7,6 @@ let authData = {
 
 export async function GET(req: Request, res: NextApiResponse) {
   if (authData.email) {
-    console.log(authData)
     res.statusCode = 200;
     return NextResponse.json(authData);
   }

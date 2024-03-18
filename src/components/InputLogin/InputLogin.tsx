@@ -63,7 +63,7 @@ export const InputLogin: React.FC<Props> = ({
           )}
 
           {errors[props.name]?.type === 'custom' && (
-            <ErrorMessage message={errors.password?.message || 'Invalid data'} />
+            <ErrorMessage message={errors[props.name]?.message || 'Invalid data'} />
           )}
 
           {showEyeIcon && (

@@ -41,6 +41,11 @@ export default function Page() {
   }
 
   const onSubmit = async (data: FormValues) => {
+    if (data.newPassword !== data.confirmPassword) {
+      setError('confirmPassword', { type: 'custom', message: "Passwords don't match" });
+      return;
+    }
+
     if (!isValid) {
       return;
     }
@@ -56,7 +61,7 @@ export default function Page() {
       })
       .catch((error) => {
           if (error.response.data.detail) {
-            setError('newPassword', { type: 'custom', message: 'Here should be your error' });
+            setError('newPassword', { type: 'custom', message: 'Here should be server error' });
             return;
           }
         }
