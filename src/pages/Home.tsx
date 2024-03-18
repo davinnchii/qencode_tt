@@ -5,7 +5,7 @@ import { ButtonBlue } from '@/components/ButtonBlue/ButtonBlue';
 import { SignUpText } from '@/components/SignUpText/SignUpText';
 import { HeadingText } from '@/components/HeadingText/HeadingText';
 import { useForm } from 'react-hook-form';
-import { FormValues } from '@/utils/FormValues';
+import { FormValuesType } from '@/types/FormValuesType';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { Logo } from '@/components/Logo/Logo';
@@ -20,7 +20,7 @@ export default function Home() {
     control,
     formState: { errors, isValid },
     clearErrors
-  } = useForm<FormValues>({
+  } = useForm<FormValuesType>({
     defaultValues: {
       email: '',
       password: ''
@@ -31,7 +31,7 @@ export default function Home() {
 
   emailProps.control = control;
 
-  const onSubmit = async (data: FormValues) => {
+  const onSubmit = async (data: FormValuesType) => {
     if (!isValid) {
       return;
     }

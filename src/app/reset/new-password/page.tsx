@@ -1,6 +1,6 @@
 'use client'
 import { useForm } from 'react-hook-form';
-import { FormValues } from '@/utils/FormValues';
+import { FormValuesType } from '@/types/FormValuesType';
 import { confirmPasswordProps, newPasswordProps } from '@/utils/fieldsProps';
 import { Logo } from '@/components/Logo/Logo';
 import { HeadingText } from '@/components/HeadingText/HeadingText';
@@ -21,7 +21,7 @@ export default function Page() {
     clearErrors,
     setError,
     formState: { errors, isValid },
-  } = useForm<FormValues>({
+  } = useForm<FormValuesType>({
     defaultValues: {
       newPassword: '',
       confirmPassword: '',
@@ -40,7 +40,7 @@ export default function Page() {
     setConfirmPasswordShown(!confirmPasswordShown);
   }
 
-  const onSubmit = async (data: FormValues) => {
+  const onSubmit = async (data: FormValuesType) => {
     if (data.newPassword !== data.confirmPassword) {
       setError('confirmPassword', { type: 'custom', message: "Passwords don't match" });
       return;

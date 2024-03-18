@@ -1,16 +1,15 @@
 import Image from 'next/image';
 import { FieldErrors, useController, UseControllerProps, UseFormClearErrors } from 'react-hook-form';
-import { FormValues } from '@/utils/FormValues';
+import { FormValuesType } from '@/types/FormValuesType';
 import { PassResetLink } from '@/components/PassResetLink/PassResetLink';
 import { ErrorMessage } from '@/components/ErrorMessage/ErrorMessage';
-import { getFieldLabelByName } from '@/utils/getFieldLabelByName';
 
 type Props = {
-  props: UseControllerProps<FormValues>
+  props: UseControllerProps<FormValuesType>
   placeholder: string;
   type: string;
-  errors: FieldErrors<FormValues>;
-  clearErrors: UseFormClearErrors<FormValues>;
+  errors: FieldErrors<FormValuesType>;
+  clearErrors: UseFormClearErrors<FormValuesType>;
   onClick?: () => void;
   label?: string;
 }

@@ -1,4 +1,4 @@
-export interface FormValues {
+export interface FormValuesType {
   email?: string;
   password?: string;
   newPassword?: string;

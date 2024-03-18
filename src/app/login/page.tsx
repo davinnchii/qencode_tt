@@ -4,10 +4,10 @@ import { ButtonBlue } from '@/components/ButtonBlue/ButtonBlue';
 import { SignUpText } from '@/components/SignUpText/SignUpText';
 import { HeadingText } from '@/components/HeadingText/HeadingText';
 import { useForm } from 'react-hook-form';
-import { FormValues } from '@/utils/FormValues';
+import { FormValuesType } from '@/types/FormValuesType';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { AuthDataType } from '@/utils/AuthDataType';
+import { AuthDataType } from '@/types/AuthDataType';
 import { Logo } from '@/components/Logo/Logo';
 import { ModalSuccess } from '@/components/Modals/ModalSuccess';
 import { useDisclosure } from '@nextui-org/react';
@@ -24,7 +24,7 @@ export default function Page() {
     setError,
     formState: { errors, isValid },
     clearErrors
-  } = useForm<FormValues>({
+  } = useForm<FormValuesType>({
     defaultValues: {
       email: '',
       password: ''
@@ -43,7 +43,7 @@ export default function Page() {
   emailProps.control = control;
   passwordProps.control = control;
 
-  const onSubmit = async (data: FormValues) => {
+  const onSubmit = async (data: FormValuesType) => {
     if (!isValid) {
       return;
     }
